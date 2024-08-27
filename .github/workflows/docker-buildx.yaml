@@ -62,10 +62,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}},prefix=v
-            type=semver,pattern={{major}}.{{minor}},prefix=v
+            type=raw,value=latest
+            type=match,pattern=v(.*),group=1
+            type=match,pattern=v(\d.\d),group=1
+            type=match,pattern=v(\d.\d.\d),group=1
 
       - name: 检查容器元数据
         run: |
