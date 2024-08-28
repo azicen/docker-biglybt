@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+# 设置端口、WEB用户&密码、webui目录
+exec s6-setuidgid abc  biglybt --ui=console << EOF
+set "Plugin.xmwebui.Port" $WEBUI_PORT int
+set "Plugin.xmwebui.User" "$WEBUI_USER" string
+set "Plugin.xmwebui.Password Enable" true boolean
+set "Plugin.xmwebui.Password" "$WEBUI_PASSWD" password
+set "Plugin.xmwebui.xmwebui.web.dir" "$WEBUI_DIR" string
+quit
+EOF

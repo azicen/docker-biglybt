@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv bash
+
+CONFIG_DIR="/config/.biglybt"
+JAVA_ARGS_FILE="$CONFIG_DIR/java.vmoptions"
+
+
+if [ ! -f "$JAVA_ARGS_FILE" ]; then
+    echo "Init java vm options. $JAVA_ARGS_FILE"
+    mkdir -p "$CONFIG_DIR"
+    echo '--add-opens=java.base/java.net=ALL-UNNAMED' >> $JAVA_ARGS_FILE
+fi

@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=biglybt
-Comment=BiglyBT is a feature filled, open source, ad-free, bittorrent client.
-Exec=biglybt
-StartupNotify=false
-Terminal=false

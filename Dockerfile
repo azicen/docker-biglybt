@@ -1,43 +1,44 @@
 FROM curlimages/curl:latest AS download
 
-RUN mkdir -p /tmp/plugins && chmod -R 777 /tmp/plugins
-
-ADD https://files.biglybt.com/plugins/xmwebui_1.0.9.zip /tmp/plugins/xmwebui.zip
-RUN TRGUING_RELEASE=$( \
+RUN mkdir -p /tmp/plugins && chmod -R 755 /tmp/plugins && \
+    TRGUING_RELEASE=$( \
         curl -s https://github.com/jayzcoder/TrguiNG/releases | \
         grep -o '[^"]*' | \
         grep -m 1 '/jayzcoder/TrguiNG/releases/tag/' | \
         sed 's|/jayzcoder/TrguiNG/releases/tag/||' \
     ) && \
-    curl -L -o /tmp/plugins/trguing.zip \
+    curl -L --retry 5 --retry-delay 5 --connect-timeout 30 \
+        -o /tmp/plugins/trguing.zip \
         "https://github.com/jayzcoder/TrguiNG/releases/download/${TRGUING_RELEASE}/${TRGUING_RELEASE}.zip"
 
-FROM ghcr.io/linuxserver/webtop:ubuntu-xfce
+ADD https://files.biglybt.com/plugins/xmwebui_1.0.9.zip /tmp/plugins/xmwebui.zip
 
-RUN echo 'deb http://deb.debian.org/debian/ sid main contrib' >> /etc/apt/sources.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 6ED0E7B82643E131
-RUN rm /etc/apt/sources.list.d/*
 
-#RUN sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
-#RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+FROM ghcr.io/azicen/desktop:latest
 
-RUN apt update && apt install -y --no-install-recommends \
-        default-jre \
-        biglybt \
-        iputils-ping \
-        unzip \
-        fonts-noto-cjk && \
-    apt autoremove -y && \
-    apt autoclean -y && \
-    apt clean
+ENV TITLE=BiglyBT \
+    WEBUI_PORT=9091 \
+    WEBUI_USER=admin \
+    WEBUI_PASSWD=admin \
+    WEBUI_DIR=/webui
 
-COPY ./root /
-COPY --from=download /tmp/plugins /plugins
-RUN unzip /plugins/trguing.zip -d /webui && rm /plugins/trguing.zip
+RUN pacman -Sy --noconfirm --needed \
+        gtk3 \
+        jre-openjdk \
+        unzip && \
+    exec s6-setuidgid abc \
+        yay -Sy --noconfirm --needed \
+            biglybt && \
+    rm -rf \
+        /tmp/* \
+        /var/cache/pacman/pkg/* \
+        /var/lib/pacman/sync/* \
+        /config/.cache/yay/*
 
-RUN chmod 755 /config/.config/autostart
-RUN chmod 644 /config/.config/autostart/biglybt.desktop
-RUN chown abc:abc -R /config/.config/autostart
+COPY /root /
+COPY --from=download /tmp/plugins /defaults/biglybt/plugins
+RUN unzip /defaults/biglybt/plugins/trguing.zip -d /webui && \
+    rm /defaults/biglybt/plugins/trguing.zip
 
 VOLUME /config/.biglybt
 

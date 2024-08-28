@@ -1,5 +1,5 @@
 #!/usr/bin/with-contenv bash
 
 # permissions
-chown abc:abc -R /webui
 chown abc:abc -R /config/.biglybt
+chown abc:abc -R /webui
