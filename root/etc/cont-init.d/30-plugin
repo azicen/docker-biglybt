@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv bash
 
-WEBUI_PLUGIN_DIR="/config/.biglybt/plugins/xmwebui/"
+WEBUI_PLUGIN_DIR="$CONFIG_DIR/plugins/xmwebui/"
 WEBUI_PLUGIN_FILE="/defaults/biglybt/plugins/xmwebui.zip"
 
 
 if [ ! -d "$WEBUI_PLUGIN_DIR" ]; then
-    echo "Install plugin xmwebui. $WEBUI_PLUGIN_FILE -> $WEBUI_PLUGIN_DIR"
+    echo "Install plugin xmwebui: $WEBUI_PLUGIN_FILE -> $WEBUI_PLUGIN_DIR"
     mkdir -p "$WEBUI_PLUGIN_DIR"
     unzip -q "$WEBUI_PLUGIN_FILE" -d "$WEBUI_PLUGIN_DIR"
 fi

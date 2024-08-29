@@ -20,7 +20,8 @@ ENV TITLE=BiglyBT \
     WEBUI_PORT=9091 \
     WEBUI_USER=admin \
     WEBUI_PASSWD=admin \
-    WEBUI_DIR=/webui
+    WEBUI_DIR=/webui \
+    CONFIG_DIR=/config/.biglybt
 
 RUN pacman -Sy --noconfirm --needed \
         gtk3 \

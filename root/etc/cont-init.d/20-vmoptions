@@ -1,6 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-CONFIG_DIR="/config/.biglybt"
 JAVA_ARGS_FILE="$CONFIG_DIR/java.vmoptions"
 
 
