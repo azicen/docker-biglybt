@@ -59,6 +59,7 @@ services:
 | VNC_HOST     | VNC 监听地址       | 127.0.0.1 |
 | VNC_PORT     | VNC 监听端口       | 5901      |
 | VNC_GEOMETRY | VNC 显示分辨率     | 1280x800  |
+| DISPLAY      | Xvnc 显示编号      | :0        |
 | TITLE        | noVNC web 标题     | BiglyBT   |
 | NOVNC_HOST   | noVNC web 监听地址 | 0.0.0.0   |
 | NOVNC_PORT   | noVNC web 监听端口 | 6081      |

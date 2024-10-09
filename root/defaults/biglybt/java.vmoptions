@@ -1,0 +1,7 @@
+-Xss256k
+-Xmx384m
+-Xms384m
+-XX:MaxDirectMemorySize=384m
+-XX:MaxGCPauseMillis=500
+-XX:+UseContainerSupport
+--add-opens=java.base/java.net=ALL-UNNAMED
